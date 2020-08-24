@@ -1,0 +1,25 @@
+name: API Checks
+on:
+  push:
+    paths:
+      - '.github/workflows/api-checks.yml'
+      - 'api/**'
+
+defaults:
+  run:
+    working-directory: api
+
+jobs:
+  lint:
+    name: Lint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Setup ruby, install & cache bundler dependencies
+        uses: ruby/setup-ruby@v1
+        with:
+          bundler-cache: true
+          working-directory: api
+      - name: Run rubocop
+        run: |
+          bin/bundle exec rubocop
