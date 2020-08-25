@@ -1,0 +1,54 @@
+name: API Checks
+on:
+  pull_request:
+    paths:
+      - '.github/workflows/api-checks.yml'
+      - 'api/**'
+
+defaults:
+  run:
+    working-directory: api
+
+jobs:
+  lint:
+    name: Lint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Setup ruby, install & cache bundler dependencies
+        uses: ruby/setup-ruby@v1
+        with:
+          bundler-cache: true
+          working-directory: api
+      - name: Run rubocop
+        run: bin/bundle exec rubocop
+
+  test:
+    name: Test
+    runs-on: ubuntu-latest
+    env:
+      RAILS_ENV: test
+    services:
+      postgres:
+        image: postgres:12
+        env:
+          POSTGRES_HOST_AUTH_METHOD: trust
+          POSTGRES_PASSWORD: ""
+          POSTGRES_USER: runner
+        ports: ["5432:5432"]
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+    steps:
+      - uses: actions/checkout@v2
+      - name: Setup ruby, install & cache bundler dependencies
+        uses: ruby/setup-ruby@v1
+        with:
+          bundler-cache: true
+          working-directory: api
+      - name: Setup test database
+        run: bin/rails db:setup
+      - name: Run test suite
+        run: bin/bundle exec rspec
