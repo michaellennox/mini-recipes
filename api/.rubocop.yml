@@ -5,5 +5,9 @@ require:
 AllCops:
   NewCops: enable
 
+Layout/MultilineMethodCallIndentation:
+  EnforcedStyle: indented_relative_to_receiver
+
 Style/Documentation:
   Enabled: false
+
