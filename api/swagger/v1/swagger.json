@@ -1,0 +1,19 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "Mini Recipes API",
+    "version": "v1"
+  },
+  "paths": {
+  },
+  "servers": [
+    {
+      "url": "{defaultUrl}",
+      "variables": {
+        "defaultUrl": {
+          "default": "http://localhost:3000"
+        }
+      }
+    }
+  ]
+}
