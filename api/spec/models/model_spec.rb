@@ -18,4 +18,19 @@ RSpec.describe Model, type: :model do
     it { is_expected.to validate_presence_of(:name) }
     it { is_expected.to validate_uniqueness_of(:name) }
   end
+
+  describe '.name_like' do
+    it 'finds case insensitive matches' do
+      matching = FactoryBot.create(:model, name: 'TestName')
+      partial_matching = FactoryBot.create(:model, name: 'LongTestNameLonger')
+      case_insensitive_match = FactoryBot.create(:model, name: 'testnameother')
+      not_matching = FactoryBot.create(:model, name: 'ANOther')
+
+      result = described_class.name_like('TestName').all
+
+      expect(result.length).to eq 3
+      expect(result).to include(case_insensitive_match, matching, partial_matching)
+      expect(result).not_to include(not_matching)
+    end
+  end
 end
