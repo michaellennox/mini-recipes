@@ -4,14 +4,62 @@
     "title": "Mini Recipes API",
     "version": "v1"
   },
+  "basePath": "/api/v1",
   "paths": {
+    "/models": {
+      "get": {
+        "summary": "Searches for models",
+        "tags": [
+          "Models"
+        ],
+        "description": "Searches for models by query string",
+        "operationId": "searchModels",
+        "parameters": [
+          {
+            "name": "q",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string",
+                        "format": "uuid"
+                      },
+                      "manufacturer_id": {
+                        "type": "string",
+                        "format": "uuid"
+                      },
+                      "name": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
   },
   "servers": [
     {
       "url": "{defaultUrl}",
       "variables": {
         "defaultUrl": {
-          "default": "http://localhost:3000"
+          "default": "http://localhost:3000/api/v1"
         }
       }
     }

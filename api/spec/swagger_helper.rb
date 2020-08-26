@@ -21,13 +21,14 @@ RSpec.configure do |config|
         title: 'Mini Recipes API',
         version: 'v1'
       },
+      basePath: '/api/v1',
       paths: {},
       servers: [
         {
           url: '{defaultUrl}',
           variables: {
             defaultUrl: {
-              default: 'http://localhost:3000'
+              default: 'http://localhost:3000/api/v1'
             }
           }
         }
