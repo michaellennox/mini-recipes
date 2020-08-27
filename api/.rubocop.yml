@@ -10,7 +10,7 @@ Layout/MultilineMethodCallIndentation:
 
 Metrics/BlockLength:
   Exclude:
-    - 'spec/**/*_spec.rb'
+    - 'spec/**/*.rb'
 
 RSpec/EmptyExampleGroup:
   Exclude:

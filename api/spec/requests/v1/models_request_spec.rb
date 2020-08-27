@@ -12,14 +12,7 @@ RSpec.describe 'Models API', type: :request do
       parameter name: :q, in: :query, type: :string
 
       response '200', 'success' do
-        schema type: :array, items: {
-          type: :object,
-          properties: {
-            id: { type: :string, format: :uuid },
-            manufacturer_id: { type: :string, format: :uuid },
-            name: { type: :string }
-          }
-        }
+        schema type: :array, items: { '$ref' => '#/components/schemas/model' }
 
         let(:q) { 'modelName' }
         let!(:matching_model) { FactoryBot.create(:model, name: 'foomodelname') }
@@ -29,7 +22,11 @@ RSpec.describe 'Models API', type: :request do
           data = JSON.parse(response.body)
 
           expect(data.length).to eq 1
-          expect(data).to include(matching_model.slice('id', 'manufacturer_id', 'name'))
+          expect(data[0]).to include(
+            'id' => matching_model.id,
+            'manufacturerId' => matching_model.manufacturer_id,
+            'name' => matching_model.name
+          )
         end
       end
     end

@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'rails_helper'
+require 'swagger_helper'
 
 RSpec.describe 'Recipes API', type: :request do
   path '/recipes' do
@@ -10,43 +10,27 @@ RSpec.describe 'Recipes API', type: :request do
       operationId 'createRecipe'
       consumes 'application/json'
       produces 'application/json'
-      parameter name: :recipe, in: :body, schema: {
-        type: :object,
-        properties: {
-          model_id: { type: :string, format: :uuid },
-          title: { type: :string }
-        }
-      }
+      parameter name: :recipe, in: :body, schema: { '$ref' => '#/components/schemas/newRecipe' }
 
       response '201', 'recipe created successfully' do
         let!(:model) { FactoryBot.create(:model) }
-        let(:recipe) { { model_id: model.id, title: 'RecipeTitle' } }
+        let(:recipe) { { modelId: model.id, title: 'RecipeTitle' } }
 
-        schema type: :object,
-               properties: {
-                 id: { type: :string, format: :uuid },
-                 model_id: { type: :string, format: :uuid },
-                 title: { type: :string },
-                 created_at: { type: :string, format: :'date-time' },
-                 updated_at: { type: :string, format: :'date-time' }
-               }
+        schema '$ref' => '#/components/schemas/recipe'
 
         run_test! do |response|
           data = JSON.parse(response.body)
+
           expect(data['title']).to eq 'RecipeTitle'
-          expect(data['model_id']).to eq model.id
+          expect(data['modelId']).to eq model.id
         end
       end
 
       response '422', 'recipe input was invalid' do
         let!(:model) { FactoryBot.create(:model) }
-        let(:recipe) { { model_id: model.id, title: nil } }
+        let(:recipe) { { modelId: model.id, title: nil } }
 
-        schema type: :object,
-               properties: {
-                 message: { type: :string },
-                 errors: { type: :array, items: { type: :string } }
-               }
+        schema '$ref' => '#/components/schemas/validationError'
 
         run_test! do |response|
           data = JSON.parse(response.body)
@@ -71,32 +55,23 @@ RSpec.describe 'Recipes API', type: :request do
         let!(:recipe) { FactoryBot.create(:recipe) }
         let(:id) { recipe.id }
 
-        schema type: :object,
-               properties: {
-                 id: { type: :string, format: :uuid },
-                 model_id: { type: :string, format: :uuid },
-                 title: { type: :string },
-                 created_at: { type: :string, format: :'date-time' },
-                 updated_at: { type: :string, format: :'date-time' }
-               }
+        schema '$ref' => '#/components/schemas/recipe'
 
         run_test! do |response|
           data = JSON.parse(response.body)
 
-          expect(data['id']).to eq recipe.id
-          expect(data['title']).to eq recipe.title
-          expect(data['model_id']).to eq recipe.model_id
+          expect(data).to include(
+            'id' => recipe.id,
+            'title' => recipe.title,
+            'modelId' => recipe.model_id
+          )
         end
       end
 
       response '404', 'recipe not found' do
         let(:id) { SecureRandom.uuid }
 
-        schema type: :object,
-               properties: {
-                 status: { type: :integer },
-                 error: { type: :string }
-               }
+        schema '$ref' => '#/components/schemas/notFoundError'
 
         run_test!
       end
