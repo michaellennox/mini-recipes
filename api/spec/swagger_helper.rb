@@ -32,7 +32,12 @@ RSpec.configure do |config|
             }
           }
         }
-      ]
+      ],
+      components: {
+        schemas: {
+          model: APISchemas::MODEL_SCHEMA
+        }
+      }
     }
   }
 

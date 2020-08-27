@@ -12,14 +12,7 @@ RSpec.describe 'Models API', type: :request do
       parameter name: :q, in: :query, type: :string
 
       response '200', 'success' do
-        schema type: :array, items: {
-          type: :object,
-          properties: {
-            id: { type: :string, format: :uuid },
-            manufacturer_id: { type: :string, format: :uuid },
-            name: { type: :string }
-          }
-        }
+        schema type: :array, items: { '$ref' => '#/components/schemas/model' }
 
         let(:q) { 'modelName' }
         let!(:matching_model) { FactoryBot.create(:model, name: 'foomodelname') }
