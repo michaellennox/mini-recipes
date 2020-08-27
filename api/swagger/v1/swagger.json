@@ -172,7 +172,7 @@
             "type": "string",
             "format": "uuid"
           },
-          "manufacturer_id": {
+          "manufacturerId": {
             "type": "string",
             "format": "uuid"
           },
@@ -188,18 +188,18 @@
             "type": "string",
             "format": "uuid"
           },
-          "model_id": {
+          "modelId": {
             "type": "string",
             "format": "uuid"
           },
           "title": {
             "type": "string"
           },
-          "created_at": {
+          "createdAt": {
             "type": "string",
             "format": "date-time"
           },
-          "updated_at": {
+          "updatedAt": {
             "type": "string",
             "format": "date-time"
           }
@@ -208,7 +208,7 @@
       "newRecipe": {
         "type": "object",
         "properties": {
-          "model_id": {
+          "modelId": {
             "type": "string",
             "format": "uuid"
           },
@@ -217,7 +217,7 @@
           }
         },
         "required": [
-          "model_id",
+          "modelId",
           "title"
         ]
       }

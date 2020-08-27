@@ -22,7 +22,11 @@ RSpec.describe 'Models API', type: :request do
           data = JSON.parse(response.body)
 
           expect(data.length).to eq 1
-          expect(data).to include(matching_model.slice('id', 'manufacturer_id', 'name'))
+          expect(data[0]).to include(
+            'id' => matching_model.id,
+            'manufacturerId' => matching_model.manufacturer_id,
+            'name' => matching_model.name
+          )
         end
       end
     end

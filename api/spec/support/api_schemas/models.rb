@@ -5,7 +5,7 @@ module APISchemas
     type: :object,
     properties: {
       id: { type: :string, format: :uuid },
-      manufacturer_id: { type: :string, format: :uuid },
+      manufacturerId: { type: :string, format: :uuid },
       name: { type: :string }
     }
   }.freeze

@@ -5,19 +5,19 @@ module APISchemas
     type: :object,
     properties: {
       id: { type: :string, format: :uuid },
-      model_id: { type: :string, format: :uuid },
+      modelId: { type: :string, format: :uuid },
       title: { type: :string },
-      created_at: { type: :string, format: :'date-time' },
-      updated_at: { type: :string, format: :'date-time' }
+      createdAt: { type: :string, format: :'date-time' },
+      updatedAt: { type: :string, format: :'date-time' }
     }
   }.freeze
 
   NEW_RECIPE_SCHEMA = {
     type: :object,
     properties: {
-      model_id: { type: :string, format: :uuid },
+      modelId: { type: :string, format: :uuid },
       title: { type: :string }
     },
-    required: %i[model_id title]
+    required: %i[modelId title]
   }.freeze
 end

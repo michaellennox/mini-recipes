@@ -14,20 +14,21 @@ RSpec.describe 'Recipes API', type: :request do
 
       response '201', 'recipe created successfully' do
         let!(:model) { FactoryBot.create(:model) }
-        let(:recipe) { { model_id: model.id, title: 'RecipeTitle' } }
+        let(:recipe) { { modelId: model.id, title: 'RecipeTitle' } }
 
         schema '$ref' => '#/components/schemas/recipe'
 
         run_test! do |response|
           data = JSON.parse(response.body)
+
           expect(data['title']).to eq 'RecipeTitle'
-          expect(data['model_id']).to eq model.id
+          expect(data['modelId']).to eq model.id
         end
       end
 
       response '422', 'recipe input was invalid' do
         let!(:model) { FactoryBot.create(:model) }
-        let(:recipe) { { model_id: model.id, title: nil } }
+        let(:recipe) { { modelId: model.id, title: nil } }
 
         schema '$ref' => '#/components/schemas/validationError'
 
@@ -59,9 +60,11 @@ RSpec.describe 'Recipes API', type: :request do
         run_test! do |response|
           data = JSON.parse(response.body)
 
-          expect(data['id']).to eq recipe.id
-          expect(data['title']).to eq recipe.title
-          expect(data['model_id']).to eq recipe.model_id
+          expect(data).to include(
+            'id' => recipe.id,
+            'title' => recipe.title,
+            'modelId' => recipe.model_id
+          )
         end
       end
 
