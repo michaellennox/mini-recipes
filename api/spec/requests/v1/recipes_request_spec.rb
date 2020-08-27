@@ -10,26 +10,13 @@ RSpec.describe 'Recipes API', type: :request do
       operationId 'createRecipe'
       consumes 'application/json'
       produces 'application/json'
-      parameter name: :recipe, in: :body, schema: {
-        type: :object,
-        properties: {
-          model_id: { type: :string, format: :uuid },
-          title: { type: :string }
-        }
-      }
+      parameter name: :recipe, in: :body, schema: { '$ref' => '#/components/schemas/newRecipe' }
 
       response '201', 'recipe created successfully' do
         let!(:model) { FactoryBot.create(:model) }
         let(:recipe) { { model_id: model.id, title: 'RecipeTitle' } }
 
-        schema type: :object,
-               properties: {
-                 id: { type: :string, format: :uuid },
-                 model_id: { type: :string, format: :uuid },
-                 title: { type: :string },
-                 created_at: { type: :string, format: :'date-time' },
-                 updated_at: { type: :string, format: :'date-time' }
-               }
+        schema '$ref' => '#/components/schemas/recipe'
 
         run_test! do |response|
           data = JSON.parse(response.body)
@@ -71,14 +58,7 @@ RSpec.describe 'Recipes API', type: :request do
         let!(:recipe) { FactoryBot.create(:recipe) }
         let(:id) { recipe.id }
 
-        schema type: :object,
-               properties: {
-                 id: { type: :string, format: :uuid },
-                 model_id: { type: :string, format: :uuid },
-                 title: { type: :string },
-                 created_at: { type: :string, format: :'date-time' },
-                 updated_at: { type: :string, format: :'date-time' }
-               }
+        schema '$ref' => '#/components/schemas/recipe'
 
         run_test! do |response|
           data = JSON.parse(response.body)

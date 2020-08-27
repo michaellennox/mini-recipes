@@ -35,7 +35,9 @@ RSpec.configure do |config|
       ],
       components: {
         schemas: {
-          model: APISchemas::MODEL_SCHEMA
+          model: APISchemas::MODEL_SCHEMA,
+          recipe: APISchemas::RECIPE_SCHEMA,
+          newRecipe: APISchemas::NEW_RECIPE_SCHEMA
         }
       }
     }
