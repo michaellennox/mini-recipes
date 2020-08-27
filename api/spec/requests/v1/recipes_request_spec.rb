@@ -29,11 +29,7 @@ RSpec.describe 'Recipes API', type: :request do
         let!(:model) { FactoryBot.create(:model) }
         let(:recipe) { { model_id: model.id, title: nil } }
 
-        schema type: :object,
-               properties: {
-                 message: { type: :string },
-                 errors: { type: :array, items: { type: :string } }
-               }
+        schema '$ref' => '#/components/schemas/validationError'
 
         run_test! do |response|
           data = JSON.parse(response.body)
@@ -72,11 +68,7 @@ RSpec.describe 'Recipes API', type: :request do
       response '404', 'recipe not found' do
         let(:id) { SecureRandom.uuid }
 
-        schema type: :object,
-               properties: {
-                 status: { type: :integer },
-                 error: { type: :string }
-               }
+        schema '$ref' => '#/components/schemas/notFoundError'
 
         run_test!
       end

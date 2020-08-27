@@ -35,6 +35,8 @@ RSpec.configure do |config|
       ],
       components: {
         schemas: {
+          validationError: APISchemas::VALIDATION_ERROR_SCHEMA,
+          notFoundError: APISchemas::NOT_FOUND_SCHEMA,
           model: APISchemas::MODEL_SCHEMA,
           recipe: APISchemas::RECIPE_SCHEMA,
           newRecipe: APISchemas::NEW_RECIPE_SCHEMA
